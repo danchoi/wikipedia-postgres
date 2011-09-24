@@ -47,16 +47,16 @@ module WikipediaVim
     def import(page)
       params = { 
         page_id: page['id'].to_i,
-        title: page['title'],
+        page_title: page['title'],
         revision_id: page['revision.id'].to_i,
         revision_timestamp: page['revision.timestamp'],
         page_text: page['revision.text']
       }
       DB[:pages].insert params
-      puts "Inserting page: #{params[:title]} #{params[:page_text].length}"
+      puts "Inserting page: #{params[:page_title]} #{params[:page_text].length}"
     rescue Sequel::DatabaseError
       if $!.message =~ /violates unique constraint/
-        puts "Already inserted page: #{params[:title]}"
+        puts "Already inserted page: #{params[:page_title]}"
       else
         raise
       end
