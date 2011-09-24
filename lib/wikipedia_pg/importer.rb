@@ -1,11 +1,9 @@
 require 'wikipedia_pg'
-require 'rexml/streamlistener'
-require 'rexml/document'
+require 'nokogiri'
 
 module WikipediaPg
 
-  class WikipediaXmlListener
-    include REXML::StreamListener
+  class XmlListener < Nokogiri::XML::SAX::Document
 
     TAGS = %w( page title id revision timestamp text )
 
@@ -17,7 +15,7 @@ module WikipediaPg
 
     def result; @page; end
 
-    def tag_start(name, attributes)
+    def start_element(name, attributes)
       @nest.push name
       if name == 'page'
         @page_count += 1
@@ -25,14 +23,14 @@ module WikipediaPg
       end
     end
 
-    def tag_end(name)
+    def end_element(name)
       @nest.pop
       if name == 'page'
         import @page
       end
     end
 
-    def text s
+    def characters s
       return unless s =~ /\S/
       if @nest.size > 1
         #puts "#{path} #{s.strip[0,50]}"
@@ -47,7 +45,7 @@ module WikipediaPg
     def import(page)
       page_id = page['id'].to_i
       if DB[:pages].filter(:page_id => page_id).first
-        puts "Already inserted page: #{page['title']}"
+        puts "Already inserted: #{page['title']}"
         return
       end
       params = { 
@@ -60,18 +58,14 @@ module WikipediaPg
       DB[:pages].insert params
       puts "Inserting page: #{params[:page_title]} "
     rescue Sequel::DatabaseError
-      if $!.message =~ /violates unique constraint/
-        puts "Already inserted page: #{params[:page_title]}"
-      else
-        raise
-      end
+      $stderr.puts $!.message
     end
   end
 
   class Importer
     def initialize(xml_file_path)
-      @listener = WikipediaXmlListener.new
-      @parser = REXML::Parsers::StreamParser.new(File.new(xml_file_path), @listener)
+      @parser = Nokogiri::XML::SAX::Parser.new(XmlListener.new) 
+      @parser.parse_file xml_file_path
     end
 
     def run
@@ -82,6 +76,6 @@ end
 
 if __FILE__ == $0
   file = 'wikipedia.xml'
-  importer = WikipediaVim::Importer.new file
+  importer = WikipediaPg::Importer.new file
   importer.run
 end

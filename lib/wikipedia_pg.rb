@@ -1,6 +1,6 @@
 require 'sequel'
 
-module WikipediaVim
+module WikipediaPg
   DB = Sequel.connect 'postgres:///wikipedia'
 
 end
