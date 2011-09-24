@@ -1,8 +1,8 @@
-require 'wikipedia_vim'
+require 'wikipedia_pg'
 require 'rexml/streamlistener'
 require 'rexml/document'
 
-module WikipediaVim
+module WikipediaPg
 
   class WikipediaXmlListener
     include REXML::StreamListener
