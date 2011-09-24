@@ -2,3 +2,15 @@
 
 http://libxml.rubyforge.org/rdoc/classes/LibXML/XML/Reader.html
 
+example data format
+{"title"=>"AmoeboidTaxa", "id"=>"24", "revision.id"=>"74466889", "revision.timestamp"=>"2006-09-08T04:17:51Z", "revision.contributor.username"=>"Rory096", "revision.contributor.id"=>"750223", "revision.comment"=>"cat rd", "revision.text"=>"#REDIRECT [[Amoeboid]] {{R from CamelCase}}"}
+
+dump is from:
+
+http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2
+
+
+I should store the character length of the page_text. Can use that as a
+proxy for the importance of the article.
+
+
