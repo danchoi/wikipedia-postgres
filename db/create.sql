@@ -13,6 +13,7 @@ create table pages (
   page_length integer,
   textsearchable tsvector
 );
+/* drop index before bulk adding */
 CREATE INDEX pages_textsearch_idx ON pages USING gin(textsearchable);
 
 CREATE OR REPLACE FUNCTION calc_page_length() RETURNS trigger AS $$
@@ -24,11 +25,12 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER cal_page_length BEFORE INSERT OR UPDATE ON pages FOR EACH ROW EXECUTE PROCEDURE calc_page_length();
 
+/* take the substring because tsvector has a max size */
 CREATE OR REPLACE FUNCTION pages_update_tsvector() RETURNS trigger AS $$
 BEGIN
   new.textsearchable :=
-     setweight(to_tsvector('pg_catalog.english', coalesce(new.page_title,'')), 'A') ||
-     setweight(to_tsvector('pg_catalog.english', coalesce(new.page_text,'')), 'B');
+     setweight(to_tsvector('pg_catalog.english', coalesce(new.page_title,'')), 'A') || ' ' ||
+     setweight(to_tsvector('pg_catalog.english', substring(coalesce(new.page_text,'') for 500000)), 'B');
   return new;
 END
 $$ LANGUAGE plpgsql;

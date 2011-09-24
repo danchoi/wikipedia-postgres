@@ -45,15 +45,20 @@ module WikipediaVim
     end
 
     def import(page)
+      page_id = page['id'].to_i
+      if DB[:pages].filter(:page_id => page_id).first
+        puts "Already inserted page: #{page['title']}"
+        return
+      end
       params = { 
-        page_id: page['id'].to_i,
+        page_id: page_id,
         page_title: page['title'],
         revision_id: page['revision.id'].to_i,
         revision_timestamp: page['revision.timestamp'],
         page_text: page['revision.text']
       }
       DB[:pages].insert params
-      puts "Inserting page: #{params[:page_title]} #{params[:page_text].length}"
+      puts "Inserting page: #{params[:page_title]} "
     rescue Sequel::DatabaseError
       if $!.message =~ /violates unique constraint/
         puts "Already inserted page: #{params[:page_title]}"

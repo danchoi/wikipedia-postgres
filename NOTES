@@ -21,10 +21,22 @@ from pages, to_tsquery('science & fiction') query  where textsearchable
 
 track how much space the postgresql database ultimately takes
 
-Filesystem           1K-blocks      Used Available Use% Mounted on
-/dev/sda1            110648144  73218180  31809332  70% /
-none                   1994528       692   1993836   1% /dev
-none                   2001156       916   2000240   1% /dev/shm
-none                   2001156       128   2001028   1% /var/run
-none                   2001156         0   2001156   0% /var/lock
-/dev/sdb1            295570344  77936832 202619420  28% /media/320
+Before:
+
+  Filesystem           1K-blocks      Used Available Use% Mounted on
+  /dev/sda1            110648144  73218180  31809332  70% /
+  none                   1994528       692   1993836   1% /dev
+  none                   2001156       916   2000240   1% /dev/shm
+  none                   2001156       128   2001028   1% /var/run
+  none                   2001156         0   2001156   0% /var/lock
+  /dev/sdb1            295570344  77936832 202619420  28% /media/320
+
+  Filesystem            Size  Used Avail Use% Mounted on
+  /dev/sda1             106G   70G   31G  70% /
+  none                  2.0G  692K  2.0G   1% /dev
+  none                  2.0G  916K  2.0G   1% /dev/shm
+  none                  2.0G  128K  2.0G   1% /var/run
+  none                  2.0G     0  2.0G   0% /var/lock
+  /dev/sdb1             282G   75G  194G  28% /media/320
+
+
