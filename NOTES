@@ -13,4 +13,18 @@ http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2
 I should store the character length of the page_text. Can use that as a
 proxy for the importance of the article.
 
+Good query for content in science fiction category;
 
+select page_title, ts_rank(textsearchable, query) as rank
+from pages, to_tsquery('science & fiction') query  where textsearchable
+@@ query order by rank desc;
+
+track how much space the postgresql database ultimately takes
+
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda1            110648144  73218180  31809332  70% /
+none                   1994528       692   1993836   1% /dev
+none                   2001156       916   2000240   1% /dev/shm
+none                   2001156       128   2001028   1% /var/run
+none                   2001156         0   2001156   0% /var/lock
+/dev/sdb1            295570344  77936832 202619420  28% /media/320
