@@ -40,3 +40,28 @@ Before:
   /dev/sdb1             282G   75G  194G  28% /media/320
 
 
+------------------------------------------------------------------------
+
+[[Category:parent_category_name]] onto the page that you would like to
+make into a subcategory. This may seem counterintuitive, because you
+edit the subcategory page rather than the parent category page.
+
+Let's say that you wanted to make the category called Roses into a
+subcategory of the category called Flowers.
+
+Step 1 - Go to the page called [[Category:Roses]], and click edit this
+page.  Step 2 - Place the text [[Category:Flowers]] within the body of
+the [[Category:Roses]] article, and save. 
+
+Finished! Roses is now a subcategory of Flowers, and 
+
+[[Category:Roses]] will be visible on [[Category:Flowers]]. 
+
+When writing the description for a category try to give it at least two
+parent categories. For example, Category:British writers should be in
+both Category:Writers by nationality and Category:British people. Some
+categories do have only one parent category, but unless the parent
+category has many potential articles under it, or many potential
+subdivisions, if you can't think of a second parent category, it might
+be a better idea to fold your smaller category into the parent.
+

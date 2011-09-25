@@ -13,7 +13,8 @@ create table pages (
   page_length integer,
   textsearchable tsvector
 );
-/* drop index before bulk adding */
+
+CREATE INDEX pages_title_idx  ON pages USING page_title;
 CREATE INDEX pages_textsearch_idx ON pages USING gin(textsearchable);
 
 CREATE OR REPLACE FUNCTION calc_page_length() RETURNS trigger AS $$
